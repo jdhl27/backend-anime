@@ -1,6 +1,7 @@
 package com.apime.service;
 
 import com.apime.model.Anime;
+import com.apime.model.AnimeResponse;
 import com.apime.model.JikanAnime;
 import com.apime.model.JikanResponse;
 import org.springframework.stereotype.Service;
@@ -14,12 +15,16 @@ public class AnimeService {
     private final RestTemplate restTemplate = new RestTemplate();
     private final String BASE_URL = "https://api.jikan.moe/v4";
 
-    public List<Anime> searchAnime(String query) {
+    public AnimeResponse searchAnime(String query) {
         String url = BASE_URL + "/anime?q=" + query;
         JikanResponse response = restTemplate.getForObject(url, JikanResponse.class);
-        return response.getData().stream()
+        List<Anime> animeList = response.getData().stream()
                 .map(this::mapToAnime)
                 .collect(Collectors.toList());
+        double average = calculateAverageScore(animeList);
+
+        return new AnimeResponse(average, animeList);
+
     }
 
     private Anime mapToAnime(JikanAnime jikanAnime) {
@@ -46,7 +51,7 @@ public class AnimeService {
         }
     }
 
-    public double calculateAverageScore(List<Anime> animes) {
-        return animes.stream().mapToDouble(Anime::getScore).average().orElse(0);
+    private double calculateAverageScore(List<Anime> animes) {
+        return animes.stream().mapToDouble(Anime::getScore).average().orElse(0.0);
     }
 }
