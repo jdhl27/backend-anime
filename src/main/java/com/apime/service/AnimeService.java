@@ -7,7 +7,9 @@ import com.apime.model.JikanResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,16 +44,24 @@ public class AnimeService {
         return anime;
     }
 
-    private String getRecommendation(double score) {
+    private Map<String, String> getRecommendation(double score) {
+        Map<String, String> recommendation = new HashMap<>();
+
         if (score == 0) {
-            return "--";
+            recommendation.put("message", "--");
+            recommendation.put("color", "gray");
         } else if (score <= 4) {
-            return "I do not recommend it.";
+            recommendation.put("message", "I do not recommend it.");
+            recommendation.put("color", "#b92e00");
         } else if (score <= 7) {
-            return "You may have fun.";
+            recommendation.put("message", "You may have fun.");
+            recommendation.put("color", "#d5aa00");
         } else {
-            return "Great, this is one of the best anime.";
+            recommendation.put("message", "Great, this is one of the best anime.");
+            recommendation.put("color", "#28a745");
         }
+
+        return recommendation;
     }
 
     private double calculateAverageScore(List<Anime> animes) {
