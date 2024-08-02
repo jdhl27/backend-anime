@@ -3,6 +3,7 @@ package com.apime.service;
 import com.apime.model.Anime;
 import com.apime.model.JikanAnime;
 import com.apime.model.JikanResponse;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
