@@ -2,11 +2,24 @@ package com.apime.service;
 
 import com.apime.model.Anime;
 import com.apime.model.JikanAnime;
+import com.apime.model.JikanResponse;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class AnimeService {
     private final RestTemplate restTemplate = new RestTemplate();
     private final String BASE_URL = "https://api.jikan.moe/v4";
+
+    public List<Anime> searchAnime(String query) {
+        String url = BASE_URL + "/anime?q=" + query;
+        JikanResponse response = restTemplate.getForObject(url, JikanResponse.class);
+        return response.getData().stream()
+                .map(this::mapToAnime)
+                .collect(Collectors.toList());
+    }
 
     private Anime mapToAnime(JikanAnime jikanAnime) {
         Anime anime = new Anime();
