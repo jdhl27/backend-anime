@@ -45,4 +45,8 @@ public class AnimeService {
             return "Great, this is one of the best anime.";
         }
     }
+
+    public double calculateAverageScore(List<Anime> animes) {
+        return animes.stream().mapToDouble(Anime::getScore).average().orElse(0);
+    }
 }
