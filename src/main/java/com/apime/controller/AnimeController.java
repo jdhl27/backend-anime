@@ -13,7 +13,7 @@ public class AnimeController {
     private AnimeService animeService;
 
     @GetMapping("/search")
-    public AnimeResponse searchAnime(@RequestParam String query) {
-        return animeService.searchAnime(query);
+    public AnimeResponse searchAnime(@RequestParam String query, @RequestParam(required = false) String page) {
+        return animeService.searchAnime(query, page);
     }
 }

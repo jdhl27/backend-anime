@@ -15,16 +15,19 @@ public class AnimeService {
     private final RestTemplate restTemplate = new RestTemplate();
     private final String BASE_URL = "https://api.jikan.moe/v4";
 
-    public AnimeResponse searchAnime(String query) {
+    public AnimeResponse searchAnime(String query, String page) {
         String url = BASE_URL + "/anime?q=" + query;
+        if (page != null && !page.isEmpty()) {
+            url += "&page=" + page;
+        }
         JikanResponse response = restTemplate.getForObject(url, JikanResponse.class);
         List<Anime> animeList = response.getData().stream()
                 .map(this::mapToAnime)
                 .collect(Collectors.toList());
         double average = calculateAverageScore(animeList);
+        Integer totalPages = response.getPagination().getLast_visible_page();
 
-        return new AnimeResponse(average, animeList);
-
+        return new AnimeResponse(totalPages, average, animeList);
     }
 
     private Anime mapToAnime(JikanAnime jikanAnime) {

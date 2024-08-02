@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnimeResponse {
+    private Integer total_pages;
     private double avarage_score;
     private List<Anime> data;
 }
