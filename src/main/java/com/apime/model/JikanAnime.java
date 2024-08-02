@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 public class JikanAnime {
     private Long mal_id;
     private String title;
+    private String type;
+    private String synopsis;
     private double score;
     private Images images;
     private Trailer trailer;

@@ -10,8 +10,11 @@ import lombok.NoArgsConstructor;
 public class Anime {
     private Long malId;
     private String title;
-    private double score;
+    private String type;
+    private String synopsis;
+    private Double score;
     private String recommendation;
+    private String color;
     private String imageUrl;
     private String trailerUrl;
     private int year;
