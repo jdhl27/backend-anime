@@ -36,11 +36,17 @@ public class AnimeService {
         Anime anime = new Anime();
         anime.setMalId(jikanAnime.getMal_id());
         anime.setTitle(jikanAnime.getTitle());
+        anime.setType(jikanAnime.getType());
+        anime.setSynopsis(jikanAnime.getSynopsis());
         anime.setScore(jikanAnime.getScore());
-        anime.setRecommendation(getRecommendation(jikanAnime.getScore()));
         anime.setImageUrl(jikanAnime.getImages().getJpg().getImage_url());
         anime.setTrailerUrl(jikanAnime.getTrailer().getUrl());
         anime.setYear(jikanAnime.getYear());
+
+        Map<String, String> recommendation = getRecommendation(jikanAnime.getScore());
+        anime.setRecommendation(recommendation.get("message"));
+        anime.setColor(recommendation.get("color"));
+
         return anime;
     }
 
