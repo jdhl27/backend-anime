@@ -71,6 +71,14 @@ public class AnimeService {
     }
 
     private double calculateAverageScore(List<Anime> animes) {
-        return animes.stream().mapToDouble(Anime::getScore).average().orElse(0.0);
+        return animes.stream()
+                .mapToDouble(anime -> {
+                    Double score = anime.getScore();
+                    return (score == null || score == 0.0) ? Double.NaN : score;
+                })
+                .filter(score -> !Double.isNaN(score))
+                .average()
+                .orElse(0.0);
     }
+
 }
